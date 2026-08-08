@@ -1,5 +1,90 @@
+Metadata-Version: 2.4
+Name: wavqwise
+Version: 0.1.0
+Summary: Pluggable temporal intelligence. Any model. Any signal. Five lines to forecast. Sense. Forecast. Alert.
+Author: Venkatkumar Rajan
+License: Apache-2.0
+Project-URL: Homepage, https://github.com/VK-Ant/wavqwise
+Project-URL: Documentation, https://github.com/VK-Ant/wavqwise#readme
+Project-URL: Repository, https://github.com/VK-Ant/wavqwise
+Project-URL: Issues, https://github.com/VK-Ant/wavqwise/issues
+Keywords: time-series,forecasting,anomaly-detection,temporal-intelligence,signal-processing,eeg,trading,pluggable
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.24
+Requires-Dist: pandas>=2.0
+Requires-Dist: scipy>=1.10
+Requires-Dist: matplotlib>=3.7
+Requires-Dist: scikit-learn>=1.2
+Requires-Dist: joblib>=1.3
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: tqdm>=4.65
+Provides-Extra: traditional
+Requires-Dist: statsforecast>=1.6; extra == "traditional"
+Requires-Dist: statsmodels>=0.14; extra == "traditional"
+Provides-Extra: ml
+Requires-Dist: xgboost>=2.0; extra == "ml"
+Requires-Dist: lightgbm>=4.0; extra == "ml"
+Provides-Extra: neural
+Requires-Dist: torch>=2.0; extra == "neural"
+Requires-Dist: neuralprophet>=0.7; extra == "neural"
+Provides-Extra: foundation
+Requires-Dist: transformers>=4.35; extra == "foundation"
+Requires-Dist: chronos-forecasting>=1.0; extra == "foundation"
+Provides-Extra: signals
+Requires-Dist: mne>=1.5; extra == "signals"
+Requires-Dist: PyWavelets>=1.4; extra == "signals"
+Provides-Extra: trading
+Requires-Dist: yfinance>=0.2; extra == "trading"
+Requires-Dist: ta>=0.11; extra == "trading"
+Provides-Extra: database
+Requires-Dist: sqlalchemy>=2.0; extra == "database"
+Requires-Dist: psycopg2-binary>=2.9; extra == "database"
+Requires-Dist: pymongo>=4.5; extra == "database"
+Requires-Dist: influxdb-client>=1.36; extra == "database"
+Provides-Extra: viz
+Requires-Dist: plotly>=5.15; extra == "viz"
+Requires-Dist: seaborn>=0.12; extra == "viz"
+Provides-Extra: cloud
+Requires-Dist: openai>=1.0; extra == "cloud"
+Requires-Dist: anthropic>=0.20; extra == "cloud"
+Requires-Dist: ollama>=0.1; extra == "cloud"
+Provides-Extra: onnx-cpu
+Requires-Dist: onnxruntime>=1.16; extra == "onnx-cpu"
+Requires-Dist: skl2onnx>=1.16; extra == "onnx-cpu"
+Provides-Extra: onnx-gpu
+Requires-Dist: onnxruntime-gpu>=1.16; extra == "onnx-gpu"
+Requires-Dist: skl2onnx>=1.16; extra == "onnx-gpu"
+Provides-Extra: tensorrt
+Requires-Dist: onnxruntime-gpu>=1.16; extra == "tensorrt"
+Requires-Dist: tensorrt>=8.6; extra == "tensorrt"
+Provides-Extra: export
+Requires-Dist: fastapi>=0.100; extra == "export"
+Requires-Dist: uvicorn>=0.23; extra == "export"
+Requires-Dist: onnx>=1.14; extra == "export"
+Provides-Extra: all
+Requires-Dist: wavqwise[cloud,database,export,foundation,ml,neural,signals,trading,traditional,viz]; extra == "all"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4; extra == "dev"
+Requires-Dist: pytest-cov>=4.1; extra == "dev"
+Requires-Dist: ruff>=0.1; extra == "dev"
+Requires-Dist: black>=23.0; extra == "dev"
+Requires-Dist: isort>=5.12; extra == "dev"
+Requires-Dist: mypy>=1.5; extra == "dev"
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/VK-Ant/wavqwise/main/assets/wavqwise_hero.png" alt="WavqWise" width="100%"/>
+  <img src="assets/wavqwise_hero.png" alt="WavqWise" width="100%"/>
 </p>
 
 <h1 align="center">WavqWise</h1>

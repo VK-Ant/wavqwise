@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "wavqwise"
-version = "0.1.0"
+version = "0.1.1"
 description = "Pluggable temporal intelligence. Any model. Any signal. Five lines to forecast. Sense. Forecast. Alert."
 readme = "README.md"
 license = {text = "Apache-2.0"}
