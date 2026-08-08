@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  wavqwise:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+      - "8888:8888"
+    volumes:
+      - ../demos:/app/demos
+    environment:
+      - WAVQWISE_DB_URL=postgresql://wavq:wavq@postgres:5432/wavqwise
+    depends_on:
+      - postgres
+
+  postgres:
+    image: timescale/timescaledb:latest-pg16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: wavq
+      POSTGRES_PASSWORD: wavq
+      POSTGRES_DB: wavqwise
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: wavqwise
+
+volumes:
+  pgdata:

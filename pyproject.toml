@@ -1,0 +1,99 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wavqwise"
+version = "0.1.0"
+description = "Pluggable temporal intelligence. Any model. Any signal. Five lines to forecast. Sense. Forecast. Alert."
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.9"
+authors = [{name = "Venkatkumar Rajan"}]
+keywords = ["time-series", "forecasting", "anomaly-detection", "temporal-intelligence", "signal-processing", "eeg", "trading", "pluggable"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "scipy>=1.10",
+    "matplotlib>=3.7",
+    "scikit-learn>=1.2",
+    "joblib>=1.3",
+    "pyyaml>=6.0",
+    "tqdm>=4.65",
+]
+
+[project.optional-dependencies]
+traditional = ["statsforecast>=1.6", "statsmodels>=0.14"]
+ml = ["xgboost>=2.0", "lightgbm>=4.0"]
+neural = ["torch>=2.0", "neuralprophet>=0.7"]
+foundation = ["transformers>=4.35", "chronos-forecasting>=1.0"]
+signals = ["mne>=1.5", "PyWavelets>=1.4"]
+trading = ["yfinance>=0.2", "ta>=0.11"]
+database = ["sqlalchemy>=2.0", "psycopg2-binary>=2.9", "pymongo>=4.5", "influxdb-client>=1.36"]
+viz = ["plotly>=5.15", "seaborn>=0.12"]
+cloud = ["openai>=1.0", "anthropic>=0.20", "ollama>=0.1"]
+onnx-cpu = ["onnxruntime>=1.16", "skl2onnx>=1.16"]
+onnx-gpu = ["onnxruntime-gpu>=1.16", "skl2onnx>=1.16"]
+tensorrt = ["onnxruntime-gpu>=1.16", "tensorrt>=8.6"]
+export = ["fastapi>=0.100", "uvicorn>=0.23", "onnx>=1.14"]
+all = [
+    "wavqwise[traditional,ml,neural,foundation,signals,trading,database,viz,cloud,export]"
+]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.1",
+    "black>=23.0",
+    "isort>=5.12",
+    "mypy>=1.5",
+]
+
+[project.scripts]
+wavqwise = "wavqwise.cli.main:main"
+
+[project.urls]
+Homepage = "https://github.com/VK-Ant/wavqwise"
+Documentation = "https://github.com/VK-Ant/wavqwise#readme"
+Repository = "https://github.com/VK-Ant/wavqwise"
+Issues = "https://github.com/VK-Ant/wavqwise/issues"
+
+[tool.setuptools.packages.find]
+include = ["wavqwise*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "smoke: Quick pipeline startup tests",
+    "sanity: Output correctness tests",
+    "ab: Model comparison A/B tests",
+    "integration: End-to-end pipeline tests",
+]
