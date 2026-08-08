@@ -305,7 +305,7 @@ WavqWise is part of the **VK-Ant pluggable AI ecosystem** — six libraries, one
 | [SightRAG](https://github.com/VK-Ant/SightRAG) | Vision | See. Search. Retrieve. | [![PyPI](https://img.shields.io/pypi/v/sightrag?color=blue)](https://pypi.org/project/sightrag/) |
 | [Sonarwise](https://github.com/VK-Ant/sonarwise) | Audio | Hear. Search. Retrieve. | [![PyPI](https://img.shields.io/pypi/v/sonarwise?color=blue)](https://pypi.org/project/sonarwise/) |
 | [Docqwise](https://github.com/VK-Ant/docqwise) | Documents | Read. Extract. Retrieve. | [![PyPI](https://img.shields.io/pypi/v/docqwise?color=blue)](https://pypi.org/project/docqwise/) |
-| **WavqWise** | **Temporal** | **Sense. Forecast. Alert.** | [![PyPI](https://img.shields.io/pypi/v/wavqwise?color=blue)](https://pypi.org/project/wavqwise/) |
+| **WavqWise** | **Temporal** | **Sense. Forecast. Alert.** | <a href="https://pypi.org/project/wavqwise/"><img src="https://img.shields.io/badge/PyPI-wavqwise-blue" alt="PyPI"></a> |
 | [Adaptive Intelligence](https://github.com/VK-Ant/adaptive-intelligence) | Orchestration | Learn. Remember. Adapt. | [![PyPI](https://img.shields.io/pypi/v/adaptive-intelligence?color=blue)](https://pypi.org/project/adaptive-intelligence/) |
 | [LLMEvalKit](https://github.com/VK-Ant/llmevalkit) | Evaluation | Evaluate. Score. Improve. | [![PyPI](https://img.shields.io/pypi/v/llmevalkit?color=blue)](https://pypi.org/project/llmevalkit/) |
 
