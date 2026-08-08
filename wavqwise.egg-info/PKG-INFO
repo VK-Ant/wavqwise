@@ -1,7 +1,7 @@
 Metadata-Version: 2.4
 Name: wavqwise
-Version: 0.1.1
-Summary: Pluggable temporal intelligence. Any model. Any signal. Five lines to forecast. Sense. Forecast. Alert.
+Version: 0.1.2
+Summary: Pluggable temporal intelligence, Any model, Any signal, Five lines to forecast - Sense, Forecast, Alert.
 Author: Venkatkumar Rajan
 License: Apache-2.0
 Project-URL: Homepage, https://github.com/VK-Ant/wavqwise
@@ -92,7 +92,7 @@ Requires-Dist: mypy>=1.5; extra == "dev"
 <p align="center">Pluggable temporal intelligence. Any model. Any signal. Five lines to forecast.</p>
 
 <p align="center">
-  <a href="https://pypi.org/project/wavqwise/"><img src="https://img.shields.io/pypi/v/wavqwise?color=blue" alt="PyPI"/></a>
+    <a href="https://pypi.org/project/wavqwise/"><img src="https://img.shields.io/badge/PyPI-docqwise-blue" alt="PyPI"></a>
   <a href="https://github.com/VK-Ant/wavqwise/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-green" alt="License"/></a>
 </p>
 
@@ -390,7 +390,7 @@ WavqWise is part of the **VK-Ant pluggable AI ecosystem** — six libraries, one
 | [SightRAG](https://github.com/VK-Ant/SightRAG) | Vision | See. Search. Retrieve. | [![PyPI](https://img.shields.io/pypi/v/sightrag?color=blue)](https://pypi.org/project/sightrag/) |
 | [Sonarwise](https://github.com/VK-Ant/sonarwise) | Audio | Hear. Search. Retrieve. | [![PyPI](https://img.shields.io/pypi/v/sonarwise?color=blue)](https://pypi.org/project/sonarwise/) |
 | [Docqwise](https://github.com/VK-Ant/docqwise) | Documents | Read. Extract. Retrieve. | [![PyPI](https://img.shields.io/pypi/v/docqwise?color=blue)](https://pypi.org/project/docqwise/) |
-| **WavqWise** | **Temporal** | **Sense. Forecast. Alert.** | [![PyPI](https://img.shields.io/pypi/v/wavqwise?color=blue)](https://pypi.org/project/wavqwise/) |
+| **WavqWise** | **Temporal** | **Sense. Forecast. Alert.** | <a href="https://pypi.org/project/wavqwise/"><img src="https://img.shields.io/badge/PyPI-wavqwise-blue" alt="PyPI"></a> |
 | [Adaptive Intelligence](https://github.com/VK-Ant/adaptive-intelligence) | Orchestration | Learn. Remember. Adapt. | [![PyPI](https://img.shields.io/pypi/v/adaptive-intelligence?color=blue)](https://pypi.org/project/adaptive-intelligence/) |
 | [LLMEvalKit](https://github.com/VK-Ant/llmevalkit) | Evaluation | Evaluate. Score. Improve. | [![PyPI](https://img.shields.io/pypi/v/llmevalkit?color=blue)](https://pypi.org/project/llmevalkit/) |
 
