@@ -7,7 +7,7 @@
 <p align="center">Pluggable temporal intelligence. Any model. Any signal. Five lines to forecast.</p>
 
 <p align="center">
-  <a href="https://pypi.org/project/wavqwise/"><img src="https://img.shields.io/pypi/v/wavqwise?color=blue" alt="PyPI"/></a>
+    <a href="https://pypi.org/project/wavqwise/"><img src="https://img.shields.io/badge/PyPI-docqwise-blue" alt="PyPI"></a>
   <a href="https://github.com/VK-Ant/wavqwise/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-green" alt="License"/></a>
 </p>
 
