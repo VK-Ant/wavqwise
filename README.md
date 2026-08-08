@@ -296,7 +296,7 @@ docker-compose -f docker/docker-compose.yml up -d
 
 ## Ecosystem
 
-WavqWise is part of the **VK-Ant pluggable AI ecosystem** — six libraries, one architecture:
+WavqWise is part of the **Pluggable Ant intelligence AI ecosystem** — Six libraries, one architecture:
 
 | Library | Domain | Tagline | PyPI |
 |---------|--------|---------|------|
