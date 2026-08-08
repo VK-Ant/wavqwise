@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: wavqwise
-Version: 0.1.0
+Version: 0.1.1
 Summary: Pluggable temporal intelligence. Any model. Any signal. Five lines to forecast. Sense. Forecast. Alert.
 Author: Venkatkumar Rajan
 License: Apache-2.0
@@ -84,7 +84,7 @@ Requires-Dist: isort>=5.12; extra == "dev"
 Requires-Dist: mypy>=1.5; extra == "dev"
 
 <p align="center">
-  <img src="assets/wavqwise_hero.png" alt="WavqWise" width="100%"/>
+  <img src="https://raw.githubusercontent.com/VK-Ant/wavqwise/main/assets/wavqwise_hero.png" alt="WavqWise" width="100%"/>
 </p>
 
 <h1 align="center">WavqWise</h1>
