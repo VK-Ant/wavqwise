@@ -1,4 +1,5 @@
 version: "3.9"
+
 services:
   wavqwise:
     build:
@@ -9,12 +10,24 @@ services:
       - "8888:8888"
     volumes:
       - ../demos:/app/demos
+      - wavqwise-output:/app/output
     environment:
-      - WAVQWISE_DB_URL=postgresql://wavq:wavq@postgres:5432/wavqwise
+      - WAVQWISE_DB_URL=postgresql://wavq:wavq@timescaledb:5432/wavqwise
     depends_on:
-      - postgres
+      timescaledb:
+        condition: service_healthy
+    command: >
+      sh -c "
+        echo '=== WavqWise v0.1.5 ===' &&
+        echo 'Sense. Forecast. Alert.' &&
+        python demos/demo_forecasting.py &&
+        python demos/demo_anomaly_detection.py &&
+        echo 'Demos complete. Starting Jupyter...' &&
+        pip install jupyter -q &&
+        jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --no-browser
+      "
 
-  postgres:
+  timescaledb:
     image: timescale/timescaledb:latest-pg16
     ports:
       - "5432:5432"
@@ -24,6 +37,11 @@ services:
       POSTGRES_DB: wavqwise
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wavq"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   grafana:
     image: grafana/grafana:latest
@@ -31,6 +49,12 @@ services:
       - "3000:3000"
     environment:
       GF_SECURITY_ADMIN_PASSWORD: wavqwise
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - timescaledb
 
 volumes:
   pgdata:
+  grafana-data:
+  wavqwise-output:

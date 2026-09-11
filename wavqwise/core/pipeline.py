@@ -459,6 +459,105 @@ class WavqPipeline:
         pipeline._is_fitted = state["is_fitted"]
         return pipeline
 
+
+
+    # === Real-Time Streaming ===
+
+    def stream(self, model: str = "ema", anomaly_method: str = "zscore",
+               window_size: int = 500, forecast_horizon: int = 30,
+               on_anomaly=None, on_forecast=None, on_data=None,
+               forecast_every: int = 10, refit_every: int = 100,
+               anomaly_threshold: float = 3.0):
+        """Start real-time streaming pipeline.
+
+        Continuous data ingestion + live anomaly detection + auto forecast updates.
+
+        Usage:
+            pipeline = WavqPipeline()
+            pipeline.load(historical_data, target="temp", time="timestamp")
+
+            stream = pipeline.stream(
+                model="ema",
+                anomaly_method="zscore",
+                on_anomaly=lambda e: send_slack_alert(e),
+                on_forecast=lambda f: update_dashboard(f),
+            )
+
+            # Push data as it arrives
+            stream.push({"timestamp": "2025-01-01 10:00", "temp": 72.3})
+
+            # Or connect to live source
+            stream.connect_callback(my_sensor_reader, interval=1.0)
+            stream.connect_csv("live_data.csv", poll_interval=5)
+
+            # Check status
+            print(stream.summary())
+            stream.stop()
+        """
+        from wavqwise.core.streaming import StreamingEngine, StreamConfig
+
+        config = StreamConfig(
+            model=model,
+            anomaly_method=anomaly_method,
+            window_size=window_size,
+            forecast_horizon=forecast_horizon,
+            anomaly_threshold=anomaly_threshold,
+            refit_every=refit_every,
+            forecast_every=forecast_every,
+        )
+
+        return StreamingEngine(
+            pipeline=self,
+            config=config,
+            on_anomaly=on_anomaly,
+            on_forecast=on_forecast,
+            on_data=on_data,
+        )
+
+    # === Plugin System ===
+
+    @staticmethod
+    def register(name: str, model_class, requires: str = None):
+        """Register ANY external model class into WavqWise.
+
+        Your class must implement:
+          - fit(data, target, time_col)
+          - predict(horizon, confidence_level) -> DataFrame
+
+        Usage:
+            from wavqwise import WavqPipeline
+
+            # Register your model
+            WavqPipeline.register("my_model", MyModelClass)
+
+            # Use it like any built-in model
+            pipeline.forecast(model="my_model")
+        """
+        Registry.register_forecaster(
+            name,
+            f"{model_class.__module__}",
+            model_class.__name__,
+            requires=requires,
+        )
+
+    @staticmethod
+    def register_instance(name: str, model_instance):
+        """Register a pre-configured model instance.
+
+        Usage:
+            from sklearn.ensemble import GradientBoostingRegressor
+            from wavqwise.core.adapter import ModelAdapter
+
+            my_model = ModelAdapter.from_sklearn(GradientBoostingRegressor(n_estimators=500))
+            WavqPipeline.register_instance("my_gbr", my_model)
+            pipeline.forecast(model="my_gbr")
+        """
+        from wavqwise.core.adapter import ModelAdapter
+        # Store instance in a module-level dict for retrieval
+        if not hasattr(WavqPipeline, "_custom_instances"):
+            WavqPipeline._custom_instances = {}
+        WavqPipeline._custom_instances[name.lower()] = model_instance
+
     # === Info ===
 
     @staticmethod

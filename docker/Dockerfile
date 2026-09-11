@@ -1,12 +1,23 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 WORKDIR /app
-COPY pyproject.toml .
+
+# System deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc g++ && rm -rf /var/lib/apt/lists/*
+
+# Install wavqwise
+COPY pyproject.toml README.md LICENSE ./
 COPY wavqwise/ wavqwise/
+RUN pip install --no-cache-dir -e ".[traditional,ml,viz,database]"
+
+# Copy demos
 COPY demos/ demos/
 
-RUN pip install --no-cache-dir -e ".[traditional,viz]"
+# Generate sample data
+RUN cd demos/sample_data && python generate_sample_data.py
 
 EXPOSE 8000 8888
 
-CMD ["python", "-m", "jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--allow-root"]
+# Default: run forecasting demo
+CMD ["python", "demos/demo_forecasting.py"]

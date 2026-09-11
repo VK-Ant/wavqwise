@@ -25,3 +25,11 @@ def anomaly_data():
     values[100] = 200  # Obvious anomaly
     values[300] = -50   # Obvious anomaly
     return pd.DataFrame({"date": dates, "value": values})
+
+@pytest.fixture
+def seasonal_data():
+    dates = pd.date_range("2024-01-01", periods=365, freq="D")
+    trend = np.linspace(100, 130, 365)
+    seasonal = 15 * np.sin(2 * np.pi * np.arange(365) / 7)
+    noise = np.random.normal(0, 2, 365)
+    return pd.DataFrame({"date": dates, "value": trend + seasonal + noise})

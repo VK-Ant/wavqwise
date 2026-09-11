@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_38d5815f6de93a10dab079a75230a73b {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_38d5815f6de93a10dab079a75230a73b" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_38d5815f6de93a10dab079a75230a73b = L.map(
+                "map_38d5815f6de93a10dab079a75230a73b",
+                {
+                    center: [10.8, 77.8],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_68f05b604775b39a9c76aeafd05849b1 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_68f05b604775b39a9c76aeafd05849b1.addTo(map_38d5815f6de93a10dab079a75230a73b);
+        
+    
+            var marker_970c356eb1f53a720042771e6e4ac066 = L.marker(
+                [11.7939, 77.8017],
+                {
+}
+            ).addTo(map_38d5815f6de93a10dab079a75230a73b);
+        
+    
+            var icon_21f089b86e32174f91604c983ef01c91 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "tint",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_58244787add8b2be9c40b77cac45683c = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_bb8aa6ce6dc42cf749f201310ecbad81 = $(`<div id="html_bb8aa6ce6dc42cf749f201310ecbad81" style="width: 100.0%; height: 100.0%;">         <div style="font-family:sans-serif;min-width:200px">             <b style="font-size:14px">Mettur Dam (Cauvery)</b><br><br>             <b>Water Level:</b> 92.1 ft<br>             <b>Capacity:</b> 120.0 ft<br>             <b>Fill:</b> 76.8%<br>             <div style="background:#e5e7eb;border-radius:4px;height:16px;margin:6px 0">                 <div style="background:#ef4444;height:16px;border-radius:4px;width:77%;                      text-align:center;color:white;font-size:11px;line-height:16px">77%</div>             </div>             <b>Status:</b> <span style="color:#ef4444">HIGH</span><br>         <b>Forecast (7d):</b> 93.6 ft (78%)<br></div></div>`)[0];
+                popup_58244787add8b2be9c40b77cac45683c.setContent(html_bb8aa6ce6dc42cf749f201310ecbad81);
+            
+        
+
+        marker_970c356eb1f53a720042771e6e4ac066.bindPopup(popup_58244787add8b2be9c40b77cac45683c)
+        ;
+
+        
+    
+    
+            marker_970c356eb1f53a720042771e6e4ac066.bindTooltip(
+                `<div>
+                     Mettur Dam (Cauvery): 77% full
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_970c356eb1f53a720042771e6e4ac066.setIcon(icon_21f089b86e32174f91604c983ef01c91);
+            
+    
+            var marker_eae15eecdd55a5cef5de90848e8748bf = L.marker(
+                [10.0112, 77.5494],
+                {
+}
+            ).addTo(map_38d5815f6de93a10dab079a75230a73b);
+        
+    
+            var icon_898a20a3d658f5c166d566ef2acad347 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "tint",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_cf4daf4fbb651769756325c787a56221 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_d1881cfbaee3c900e45abc7c65d42ed2 = $(`<div id="html_d1881cfbaee3c900e45abc7c65d42ed2" style="width: 100.0%; height: 100.0%;">         <div style="font-family:sans-serif;min-width:200px">             <b style="font-size:14px">Vaigai Dam (Vaigai)</b><br><br>             <b>Water Level:</b> 50.3 ft<br>             <b>Capacity:</b> 71.0 ft<br>             <b>Fill:</b> 70.9%<br>             <div style="background:#e5e7eb;border-radius:4px;height:16px;margin:6px 0">                 <div style="background:#f59e0b;height:16px;border-radius:4px;width:71%;                      text-align:center;color:white;font-size:11px;line-height:16px">71%</div>             </div>             <b>Status:</b> <span style="color:#f59e0b">MEDIUM</span><br>         <b>Forecast (7d):</b> 55.5 ft (78%)<br></div></div>`)[0];
+                popup_cf4daf4fbb651769756325c787a56221.setContent(html_d1881cfbaee3c900e45abc7c65d42ed2);
+            
+        
+
+        marker_eae15eecdd55a5cef5de90848e8748bf.bindPopup(popup_cf4daf4fbb651769756325c787a56221)
+        ;
+
+        
+    
+    
+            marker_eae15eecdd55a5cef5de90848e8748bf.bindTooltip(
+                `<div>
+                     Vaigai Dam (Vaigai): 71% full
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_eae15eecdd55a5cef5de90848e8748bf.setIcon(icon_898a20a3d658f5c166d566ef2acad347);
+            
+    
+            var marker_f01bb1f61e5630d32a2ebf7fddb80f05 = L.marker(
+                [9.5322, 77.1387],
+                {
+}
+            ).addTo(map_38d5815f6de93a10dab079a75230a73b);
+        
+    
+            var icon_eef61f53c3feb89c08ea9928d0c4a567 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "tint",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_546e9adf7bed36bf9b06ca87a797f39c = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_5e51ea3ce62db7667dfe711cf69771cc = $(`<div id="html_5e51ea3ce62db7667dfe711cf69771cc" style="width: 100.0%; height: 100.0%;">         <div style="font-family:sans-serif;min-width:200px">             <b style="font-size:14px">Mullaperiyar Dam (Periyar)</b><br><br>             <b>Water Level:</b> 128.0 ft<br>             <b>Capacity:</b> 142.0 ft<br>             <b>Fill:</b> 90.1%<br>             <div style="background:#e5e7eb;border-radius:4px;height:16px;margin:6px 0">                 <div style="background:#7f1d1d;height:16px;border-radius:4px;width:90%;                      text-align:center;color:white;font-size:11px;line-height:16px">90%</div>             </div>             <b>Status:</b> <span style="color:#7f1d1d">CRITICAL</span><br>         <b>Forecast (7d):</b> 130.3 ft (92%)<br></div></div>`)[0];
+                popup_546e9adf7bed36bf9b06ca87a797f39c.setContent(html_5e51ea3ce62db7667dfe711cf69771cc);
+            
+        
+
+        marker_f01bb1f61e5630d32a2ebf7fddb80f05.bindPopup(popup_546e9adf7bed36bf9b06ca87a797f39c)
+        ;
+
+        
+    
+    
+            marker_f01bb1f61e5630d32a2ebf7fddb80f05.bindTooltip(
+                `<div>
+                     Mullaperiyar Dam (Periyar): 90% full
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f01bb1f61e5630d32a2ebf7fddb80f05.setIcon(icon_eef61f53c3feb89c08ea9928d0c4a567);
+            
+    
+            var marker_b3a2304adb70ea6ecb2fef7dae3cef5e = L.marker(
+                [11.445, 77.0803],
+                {
+}
+            ).addTo(map_38d5815f6de93a10dab079a75230a73b);
+        
+    
+            var icon_a6d02841caa1655a830c5ec5fbfa705c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "tint",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c3dcb5a2ee3ad96cfcdb3fbb403a70bc = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_1bc1fd79a2265a64143019b3633146d2 = $(`<div id="html_1bc1fd79a2265a64143019b3633146d2" style="width: 100.0%; height: 100.0%;">         <div style="font-family:sans-serif;min-width:200px">             <b style="font-size:14px">Bhavanisagar Dam (Bhavani)</b><br><br>             <b>Water Level:</b> 79.2 ft<br>             <b>Capacity:</b> 105.0 ft<br>             <b>Fill:</b> 75.5%<br>             <div style="background:#e5e7eb;border-radius:4px;height:16px;margin:6px 0">                 <div style="background:#ef4444;height:16px;border-radius:4px;width:75%;                      text-align:center;color:white;font-size:11px;line-height:16px">75%</div>             </div>             <b>Status:</b> <span style="color:#ef4444">HIGH</span><br>         <b>Forecast (7d):</b> 84.6 ft (81%)<br></div></div>`)[0];
+                popup_c3dcb5a2ee3ad96cfcdb3fbb403a70bc.setContent(html_1bc1fd79a2265a64143019b3633146d2);
+            
+        
+
+        marker_b3a2304adb70ea6ecb2fef7dae3cef5e.bindPopup(popup_c3dcb5a2ee3ad96cfcdb3fbb403a70bc)
+        ;
+
+        
+    
+    
+            marker_b3a2304adb70ea6ecb2fef7dae3cef5e.bindTooltip(
+                `<div>
+                     Bhavanisagar Dam (Bhavani): 75% full
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b3a2304adb70ea6ecb2fef7dae3cef5e.setIcon(icon_a6d02841caa1655a830c5ec5fbfa705c);
+            
+</script>
+</html>

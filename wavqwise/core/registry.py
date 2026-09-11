@@ -224,7 +224,6 @@ _CLOUD = [
     ("timegpt", "wavqwise.forecasters.cloud.timegpt", "TimeGPTForecaster"),
     ("ollama", "wavqwise.forecasters.cloud.ollama", "OllamaForecaster"),
     ("openai", "wavqwise.forecasters.cloud.openai", "OpenAIForecaster"),
-    ("anthropic", "wavqwise.forecasters.cloud.anthropic_wrapper", "AnthropicForecaster"),
 ]
 
 for name, mod, cls_name in _CLOUD:
@@ -269,3 +268,15 @@ _INDICATORS = [
 
 for name, mod, cls_name in _INDICATORS:
     Registry.register_indicator(name, mod, cls_name, requires="trading")
+
+# Weather foundation models
+_WEATHER = [
+    ("graphcast", "wavqwise.weather.models", "GraphCastForecaster"),
+    ("gencast", "wavqwise.weather.models", "GraphCastForecaster"),
+    ("aurora", "wavqwise.weather.models", "AuroraForecaster"),
+    ("pangu", "wavqwise.weather.models", "PanguWeatherForecaster"),
+    ("fourcastnet", "wavqwise.weather.models", "FourCastNetForecaster"),
+]
+
+for name, mod, cls_name in _WEATHER:
+    Registry.register_forecaster(name, mod, cls_name, requires="weather")
