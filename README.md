@@ -2,8 +2,8 @@
   <img src="https://raw.githubusercontent.com/VK-Ant/wavqwise/main/assets/wavqwise_hero.png" alt="WavqWise" width="70%"/>
 </p>
 <h1 align="center">WavqWise</h1>
-<h3 align="center">Sense. Forecast. Alert.</h3>
-<p align="center">Pluggable temporal intelligence. 37 models. 5 pipelines. Real-time streaming. Auto GPU.</p>
+<h3 align="center">Sense, Forecast, Alert.</h3>
+<p align="center">Pluggable temporal intelligence, 37 models, 5 pipelines, Real-time streaming, Auto GPU.</p>
 
 <p align="center">
     <a href="https://pypi.org/project/wavqwise/"><img src="https://img.shields.io/badge/PyPI-docqwise-blue" alt="PyPI"></a>

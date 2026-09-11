@@ -85,7 +85,7 @@ Requires-Dist: mypy>=1.5; extra == "dev"
 Dynamic: license-file
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/VK-Ant/wavqwise/main/assets/wavqwise_hero.png" alt="WavqWise" width="100%"/>
+  <img src="https://raw.githubusercontent.com/VK-Ant/wavqwise/main/assets/wavqwise_hero.png" alt="WavqWise" width="70%"/>
 </p>
 <h1 align="center">WavqWise</h1>
 <h3 align="center">Sense. Forecast. Alert.</h3>

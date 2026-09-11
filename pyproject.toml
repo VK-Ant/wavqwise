@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "wavqwise"
-version = "0.1.5"
-description = "Pluggable temporal intelligence. Any model. Any signal. Five lines to forecast. Sense. Forecast. Alert."
+version = "0.1.6"
+description = "Pluggable temporal intelligence. Any model, Any signal, Five lines to forecast. Sense - Forecast - Alert."
 readme = "README.md"
 license = {text = "Apache-2.0"}
 requires-python = ">=3.9"
-authors = [{name = "VK-Ant (Venkatkumar Rajan)"}]
+authors = [{name = "Venkatkumar Rajan"}]
 keywords = ["time-series", "forecasting", "anomaly-detection", "temporal-intelligence", "signal-processing", "eeg", "trading", "pluggable"]
 classifiers = [
     "Development Status :: 4 - Beta",
