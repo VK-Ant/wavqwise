@@ -1,8 +1,13 @@
 """
-WavqWise Demo: Real-Time Streaming
-====================================
+WavqWise Demo: Real-Time Streaming (v0.1.7)
+=============================================
 Simulates a live IoT sensor feed with real-time anomaly detection
 and continuous forecast updates.
+
+v0.1.7 fix: snapshot-based anomaly scoring.
+  - Detector fits on a clean baseline BEFORE new data is appended
+  - Spikes can never contaminate their own baseline
+  - Cold-start guard prevents false alerts on small windows
 
 This is what makes WavqWise different:
 - Nixtla/Darts/Prophet: batch only, retrain from scratch
@@ -19,8 +24,9 @@ from wavqwise import WavqPipeline
 
 # === 1. Simulate historical sensor data ===
 print("=" * 60)
-print("WavqWise Real-Time Streaming Demo")
+print("WavqWise Real-Time Streaming Demo (v0.1.7)")
 print("Sense. Forecast. Alert.")
+print("Snapshot-based anomaly scoring — spikes never hide")
 print("=" * 60)
 
 np.random.seed(42)
