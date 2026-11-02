@@ -459,6 +459,7 @@ docker-compose up -d
 
 ---
 
+<<<<<<< HEAD
 ## Testing (94 tests)
 
 ```bash
@@ -468,6 +469,16 @@ make ab           # 5 A/B comparison tests (which model wins?)
 make integration  # 7 integration tests (full pipeline flows)
 make streaming    # 31 streaming regression tests (issue #1)
 make test         # All 94 tests
+=======
+## Testing (61 tests)
+
+```bash
+make smoke        # 24 smoke tests (does it run?)
+make sanity       # 20 sanity tests (is output correct?)
+make ab           # 5 A/B comparison tests (which model wins?)
+make integration  # 7 integration tests (full pipeline flows)
+make test         # All 61 tests
+>>>>>>> 634c825145bef5d16d83ac5b29af0cbe266ad639
 ```
 
 ---

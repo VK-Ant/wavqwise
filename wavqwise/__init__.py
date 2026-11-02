@@ -5,7 +5,11 @@ Sense. Forecast. Alert.
 Any model. Any signal. Five lines to forecast.
 """
 
+<<<<<<< HEAD
 __version__ = "0.1.8"
+=======
+__version__ = "0.1.7"
+>>>>>>> 634c825145bef5d16d83ac5b29af0cbe266ad639
 __author__ = "VK-Ant (Venkatkumar Rajan)"
 __tagline__ = "Sense. Forecast. Alert."
 

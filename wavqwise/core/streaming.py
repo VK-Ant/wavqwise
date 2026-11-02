@@ -139,6 +139,7 @@ class StreamingEngine:
     def push(self, data: Union[dict, pd.DataFrame, pd.Series]):
         """Push new data point(s) into the stream.
 
+<<<<<<< HEAD
         Correct ordering (v0.1.7 fix, v0.1.8 refinement):
         1. Snapshot current window (pre-batch baseline)
         2. Fit detector on snapshot -- new data never contaminates its own baseline
@@ -148,6 +149,14 @@ class StreamingEngine:
         v0.1.8 fixes:
         - on_data callback now carries correct per-row anomaly metadata
         - Forecast/refit cadence fires per observation, not per batch
+=======
+        Correct ordering (v0.1.7 fix):
+        1. Snapshot current window (pre-batch baseline)
+        2. Fit detector on snapshot -- new data never contaminates its own baseline
+        3. Score each new row against that baseline, fire per-row callbacks
+        4. Append new data to window and trim
+        5. Update count, refit cadence checked after scoring
+>>>>>>> 634c825145bef5d16d83ac5b29af0cbe266ad639
 
         Args:
             data: dict, DataFrame, or Series with new observation(s)
@@ -172,6 +181,33 @@ class StreamingEngine:
             except Exception as e:
                 logger.debug(f"Detector fit failed: {e}")
                 detector_ready = False
+<<<<<<< HEAD
+=======
+        else:
+            detector_ready = False
+
+        # Step 3: Score each new row against the pre-batch baseline
+        all_anomalies = []
+        for i in range(len(data)):
+            row_df = data.iloc[[i]].reset_index(drop=True)
+
+            if detector_ready and self._target in row_df.columns:
+                row_anomalies = self._score_row(row_df)
+                if row_anomalies is not None:
+                    all_anomalies.append(row_anomalies)
+
+            # Fire per-row data callback
+            if self._on_data:
+                row_anom = all_anomalies[-1] if all_anomalies and len(all_anomalies) > i else None
+                self._on_data(StreamEvent(row_df, anomalies=row_anom))
+
+        # Combine anomalies from all rows
+        anomalies = pd.concat(all_anomalies, ignore_index=True) if all_anomalies else None
+
+        # Step 4: NOW append new data to window
+        if self._window is None:
+            self._window = data.copy()
+>>>>>>> 634c825145bef5d16d83ac5b29af0cbe266ad639
         else:
             detector_ready = False
 
@@ -183,6 +219,7 @@ class StreamingEngine:
         for i in range(len(data)):
             row_df = data.iloc[[i]].reset_index(drop=True)
 
+<<<<<<< HEAD
             # --- score against frozen baseline ---
             row_anom = None
             if detector_ready and self._target in row_df.columns:
@@ -203,6 +240,14 @@ class StreamingEngine:
             # Trim to window size
             if len(self._window) > self._config.window_size:
                 self._window = self._window.tail(self._config.window_size).reset_index(drop=True)
+=======
+        # Step 5: Update count and check cadence AFTER scoring
+        self._count += len(data)
+
+        # Periodic forecast update
+        if self._count % self._config.forecast_every == 0:
+            self._update_forecast()
+>>>>>>> 634c825145bef5d16d83ac5b29af0cbe266ad639
 
             # --- per-observation count and cadence ---
             self._count += 1

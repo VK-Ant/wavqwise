@@ -120,6 +120,7 @@ def test_stream_cold_start_no_alerts(stream_data):
 
 
 @pytest.mark.smoke
+<<<<<<< HEAD
 def test_stream_on_data_metadata_matches_anomaly(stream_data):
     """Regression: on_data callback must carry correct per-row anomaly metadata.
 
@@ -192,6 +193,8 @@ def test_stream_cadence_per_observation(stream_data):
 
 
 @pytest.mark.smoke
+=======
+>>>>>>> 634c825145bef5d16d83ac5b29af0cbe266ad639
 def test_stream_summary(stream_data):
     from wavqwise import WavqPipeline
     p = WavqPipeline()
