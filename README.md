@@ -3,10 +3,10 @@
 </p>
 <h1 align="center">WavqWise</h1>
 <h3 align="center">Sense, Forecast, Alert.</h3>
-<p align="center">Pluggable temporal intelligence, 37 models, 5 pipelines, Real-time streaming, Auto GPU.</p>
+<p align="center">Pluggable temporal intelligence, 37 models, 5 pipelines, Real-time streaming, Auto Feature Engineering, Auto GPU.</p>
 
 <p align="center">
-    <a href="https://pypi.org/project/wavqwise/"><img src="https://img.shields.io/badge/PyPI-docqwise-blue" alt="PyPI"></a>
+    <a href="https://pypi.org/project/wavqwise/"><img src="https://img.shields.io/badge/PyPI-wavqwise-blue" alt="PyPI"></a>
   <a href="https://github.com/VK-Ant/wavqwise/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-green" alt="License"/></a>
 </p>
 
@@ -15,6 +15,7 @@
   <a href="#5-pipelines">5 Pipelines</a> |
   <a href="#37-pluggable-models">37 Models</a> |
   <a href="#real-time-streaming">Real-Time</a> |
+  <a href="#auto-feature-engineering">Feature Engineering</a> |
   <a href="#weather-forecasting">Weather</a> |
   <a href="#dam-water-level-monitoring">Dam Monitoring</a> |
   <a href="#colab-notebooks">Colab</a>
@@ -34,6 +35,7 @@
 | Trading indicators | No | No | No | **Yes** |
 | Weather (GraphCast / Aurora) | No | No | No | **Yes** |
 | Dam / Water level monitoring | No | No | No | **Yes** |
+| Auto feature engineering (12 groups) | No | No | No | **Yes** |
 | Auto GPU / ONNX / TensorRT | No | No | No | **Yes** |
 | Plugin any external model | No | No | No | **Yes** |
 | CLI + PNG charts + CSV/JSON export | No | No | No | **Yes** |
@@ -139,7 +141,7 @@ weather.compare_models(horizon=14)
 
 ## Real-Time Streaming
 
-The feature no other forecasting library has:
+The feature no other forecasting library has. **v0.1.7**: snapshot-based anomaly scoring — the detector fits on a clean baseline snapshot *before* new data is appended, so spikes can never contaminate their own baseline. Cold-start guard prevents false alerts when the window is still small.
 
 ```python
 pipeline = WavqPipeline()
@@ -161,6 +163,43 @@ stream.connect_callback(my_sensor_reader, interval=1.0)
 
 print(stream.summary())
 # Stream: 500 points | 3 anomalies | window=200 | model=ema | LIVE
+```
+
+---
+
+## Auto Feature Engineering
+
+12 feature groups, 80+ features generated automatically — zero manual work:
+
+```python
+from wavqwise.features import AutoFeatureEngineer
+
+fe = AutoFeatureEngineer()
+enriched = fe.generate(df, target="value", time_col="timestamp")
+print(fe.feature_report())
+# {'total_features': 85, 'groups_used': [...], 'feature_names': [...]}
+```
+
+| Group | Features | Description |
+|-------|----------|-------------|
+| **Lags** | `lag_1`, `lag_2`, ..., `lag_30` | Shifted target values |
+| **Rolling** | mean, std, min, max, median, skew, kurt × 4 windows | Sliding-window statistics |
+| **EWM** | mean, std, var × 3 spans | Exponentially weighted moving stats |
+| **Calendar** | hour, day_of_week, month, quarter, is_weekend, ... | Datetime decomposition (12 features) |
+| **Cyclical** | sin/cos for hour, day, month, day-of-year | Periodic encoding (8 features) |
+| **Fourier** | `fourier_sin_1`..`_3`, `fourier_cos_1`..`_3` | Seasonal harmonics |
+| **Trend** | linear, quadratic, normalised | Deterministic trend |
+| **Diff** | 1st, 2nd order + seasonal (lag-7) | Differencing / stationarity |
+| **Pct Change** | 1, 7, 14-period | Percentage change |
+| **Rate of Change** | ROC + momentum at 7, 14, 30 | Momentum indicators |
+| **Volatility** | rolling z-score, Bollinger bands, band width | Risk / dispersion |
+| **Interaction** | mean ratio, crossover signal, std ratio, distance | Cross-scale dynamics |
+
+Select specific groups:
+
+```python
+fe = AutoFeatureEngineer(feature_groups=["lags", "rolling", "ewm", "cyclical"])
+enriched = fe.generate(df, target="value", time_col="timestamp")
 ```
 
 ---
@@ -347,7 +386,7 @@ print(predictor.benchmark(input_array))
 
 ---
 
-## Demos (11 scripts)
+## Demos (12 scripts)
 
 | Demo | What it does | Run |
 |------|-------------|-----|
@@ -362,6 +401,7 @@ print(predictor.benchmark(input_array))
 | Dam Monitoring | Tamil Nadu dams, flood alerts, streaming | `python demos/demo_dam_monitoring.py` |
 | Dam World | 49 dams, 13 countries, PNG + CLI + CSV output | `python demos/demo_dam_world.py` |
 | Real-Time Stream | Live sensor monitoring with anomaly alerts | `python demos/demo_realtime_streaming.py` |
+| Feature Engineering | Auto feature generation (12 groups, 80+ features) | `python demos/demo_feature_engineering.py` |
 
 ---
 
@@ -419,14 +459,15 @@ docker-compose up -d
 
 ---
 
-## Testing (59 tests)
+## Testing (94 tests)
 
 ```bash
-make smoke        # 22 smoke tests (does it run?)
+make smoke        # 26 smoke tests (does it run?)
 make sanity       # 20 sanity tests (is output correct?)
 make ab           # 5 A/B comparison tests (which model wins?)
 make integration  # 7 integration tests (full pipeline flows)
-make test         # All 59 tests
+make streaming    # 31 streaming regression tests (issue #1)
+make test         # All 94 tests
 ```
 
 ---

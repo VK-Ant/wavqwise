@@ -116,8 +116,38 @@ class StreamingEngine:
 
         self._latest_forecast = None
 
+        # Minimum observations before alerting (cold-start guard)
+        self._min_window = max(20, config.window_size // 10)
+
+    def _score_row(self, row_df: pd.DataFrame) -> Optional[pd.DataFrame]:
+        """Score a single row against the already-fitted detector.
+
+        Returns anomaly rows if any, else None.
+        """
+        try:
+            result = self._detector.detect(row_df)
+            anomalies = result[result["is_anomaly"]]
+            if len(anomalies) > 0:
+                self._anomaly_count += len(anomalies)
+                event = StreamEvent(row_df, anomalies=anomalies)
+                self._on_anomaly(event)
+                return anomalies
+        except Exception as e:
+            logger.debug(f"Row scoring failed: {e}")
+        return None
+
     def push(self, data: Union[dict, pd.DataFrame, pd.Series]):
         """Push new data point(s) into the stream.
+
+        Correct ordering (v0.1.7 fix, v0.1.8 refinement):
+        1. Snapshot current window (pre-batch baseline)
+        2. Fit detector on snapshot -- new data never contaminates its own baseline
+        3. For each row: score against baseline, fire on_data with correct
+           metadata, append to window, run per-observation forecast/refit cadence
+
+        v0.1.8 fixes:
+        - on_data callback now carries correct per-row anomaly metadata
+        - Forecast/refit cadence fires per observation, not per batch
 
         Args:
             data: dict, DataFrame, or Series with new observation(s)
@@ -131,32 +161,57 @@ class StreamingEngine:
             if not pd.api.types.is_datetime64_any_dtype(data[self._time_col]):
                 data[self._time_col] = pd.to_datetime(data[self._time_col])
 
-        # Append to window
-        if self._window is None:
-            self._window = data.copy()
+        # Step 1: Snapshot current window BEFORE appending
+        baseline = self._window.copy() if self._window is not None else None
+
+        # Step 2: Fit detector on clean baseline (cold-start guard)
+        if baseline is not None and len(baseline) >= self._min_window:
+            try:
+                self._detector.fit(baseline, target=self._target)
+                detector_ready = True
+            except Exception as e:
+                logger.debug(f"Detector fit failed: {e}")
+                detector_ready = False
         else:
-            self._window = pd.concat([self._window, data], ignore_index=True)
+            detector_ready = False
 
-        # Trim to window size
-        if len(self._window) > self._config.window_size:
-            self._window = self._window.tail(self._config.window_size).reset_index(drop=True)
+        # Step 3: Score each new row, append it, and run per-observation cadence.
+        # Each row is scored against the pre-batch baseline (detector already
+        # fitted above), then immediately appended to the window so that
+        # forecast/refit cadence fires at the correct per-observation count.
+        all_anomalies = []
+        for i in range(len(data)):
+            row_df = data.iloc[[i]].reset_index(drop=True)
 
-        self._count += len(data)
+            # --- score against frozen baseline ---
+            row_anom = None
+            if detector_ready and self._target in row_df.columns:
+                row_anom = self._score_row(row_df)
+                if row_anom is not None:
+                    all_anomalies.append(row_anom)
 
-        # Anomaly detection on new points
-        anomalies = self._check_anomalies(data)
+            # --- per-row data callback with correct metadata ---
+            if self._on_data:
+                self._on_data(StreamEvent(row_df, anomalies=row_anom))
 
-        # Fire data callback
-        if self._on_data:
-            self._on_data(StreamEvent(data, anomalies=anomalies))
+            # --- append this row to window immediately ---
+            if self._window is None:
+                self._window = row_df.copy()
+            else:
+                self._window = pd.concat([self._window, row_df], ignore_index=True)
 
-        # Periodic forecast update
-        if self._count % self._config.forecast_every == 0:
-            self._update_forecast()
+            # Trim to window size
+            if len(self._window) > self._config.window_size:
+                self._window = self._window.tail(self._config.window_size).reset_index(drop=True)
 
-        # Periodic refit
-        if self._count % self._config.refit_every == 0:
-            self._refit()
+            # --- per-observation count and cadence ---
+            self._count += 1
+
+            if self._count % self._config.forecast_every == 0:
+                self._update_forecast()
+
+            if self._count % self._config.refit_every == 0:
+                self._refit()
 
     def push_batch(self, data: pd.DataFrame):
         """Push a batch of data points."""
@@ -164,21 +219,26 @@ class StreamingEngine:
             self.push(row)
 
     def _check_anomalies(self, new_data: pd.DataFrame) -> Optional[pd.DataFrame]:
-        """Run anomaly detection on new data points."""
+        """Run anomaly detection on new data (backward-compat entry point).
+
+        Note: push() no longer calls this -- it uses snapshot-based scoring.
+        This is kept for external callers who may invoke it directly.
+        It fits on the CURRENT window (safe only if called before appending).
+        """
         if self._target not in new_data.columns:
             return None
 
         try:
-            if len(self._window) > 20:
+            if self._window is not None and len(self._window) >= self._min_window:
                 self._detector.fit(self._window, target=self._target)
-            result = self._detector.detect(new_data)
-            anomalies = result[result["is_anomaly"]]
+                result = self._detector.detect(new_data)
+                anomalies = result[result["is_anomaly"]]
 
-            if len(anomalies) > 0:
-                self._anomaly_count += len(anomalies)
-                event = StreamEvent(new_data, anomalies=anomalies)
-                self._on_anomaly(event)
-                return anomalies
+                if len(anomalies) > 0:
+                    self._anomaly_count += len(anomalies)
+                    event = StreamEvent(new_data, anomalies=anomalies)
+                    self._on_anomaly(event)
+                    return anomalies
         except Exception as e:
             logger.debug(f"Anomaly check failed: {e}")
 
