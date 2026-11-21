@@ -459,7 +459,6 @@ docker-compose up -d
 
 ---
 
-<<<<<<< HEAD
 ## Testing (94 tests)
 
 ```bash
